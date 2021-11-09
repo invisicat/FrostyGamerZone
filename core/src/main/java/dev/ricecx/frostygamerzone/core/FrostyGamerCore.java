@@ -1,8 +1,9 @@
 package dev.ricecx.frostygamerzone.core;
 
-import org.bukkit.plugin.java.JavaPlugin;
 
-public final class FrostyGamerCore extends JavaPlugin {
+import dev.ricecx.frostygamerzone.bukkitapi.CorePlugin;
+
+public final class FrostyGamerCore extends CorePlugin {
 
     @Override
     public void onEnable() {
@@ -10,7 +11,5 @@ public final class FrostyGamerCore extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
+    public void onDisable() {}
 }
