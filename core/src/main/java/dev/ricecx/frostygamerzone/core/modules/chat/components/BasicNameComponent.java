@@ -9,7 +9,7 @@ public class BasicNameComponent implements ChatComponent {
     public BaseComponent getComponent(Player player) {
         ComponentBuilder componentBuilder = new ComponentBuilder(player.getName());
 
-        componentBuilder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.arrayToString(
+        componentBuilder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.color(
                 "&7Player: &6" + player.getName(),
                 "&aClick to message me!")).create()));
         componentBuilder.event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName())).create();
