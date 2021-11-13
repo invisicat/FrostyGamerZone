@@ -1,4 +1,4 @@
-package dev.ricecx.frostygamerzone.core.user;
+package dev.ricecx.frostygamerzone.bukkitapi.user;
 
 import org.bukkit.entity.Player;
 

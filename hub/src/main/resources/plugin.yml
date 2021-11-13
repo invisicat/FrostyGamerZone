@@ -1,3 +1,5 @@
 name: Lobby
 version: '${project.version}'
 main: dev.ricecx.frostygamerzone.frosthub.Frosthub
+depend:
+  - FrostyGamerCore

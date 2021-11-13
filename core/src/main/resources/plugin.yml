@@ -1,3 +1,5 @@
 name: FrostyGamerCore
 version: '${project.version}'
 main: dev.ricecx.frostygamerzone.core.FrostyGamerCore
+depend:
+  - LuckPerms
