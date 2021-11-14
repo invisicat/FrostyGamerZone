@@ -9,6 +9,7 @@ import java.util.List;
 public class Styles {
 
     public static final String PREFIX = "&b&lFrosty&9&lNetwork";
+    public static final String IP = "&bplay.frostynetwork.net";
 
     /**
      * Return the invalid account error for the given player name with the given prefix

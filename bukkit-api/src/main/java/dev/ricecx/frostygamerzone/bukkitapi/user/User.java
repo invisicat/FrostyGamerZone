@@ -5,4 +5,7 @@ import org.bukkit.entity.Player;
 public interface User {
 
     Player getPlayer();
+
+    void load();
+    void save();
 }

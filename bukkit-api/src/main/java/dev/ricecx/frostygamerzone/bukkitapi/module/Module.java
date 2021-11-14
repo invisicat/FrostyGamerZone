@@ -66,10 +66,13 @@ public class Module implements Listener {
         return module != null ? Optional.of(clazz.cast(modules.get(clazz))) : Optional.empty();
     }
 
-    public static void loadModule(Class<? extends Module> clazz) {
+    public static <T extends Module> T loadModule(Class<T> clazz) {
         if(modules.containsKey(clazz)) throw new RuntimeException("This module has already been loaded. Are you sure you want to load it twice?");
 
-        modules.put(clazz, createObject(clazz));
+        T clazzObject = createObject(clazz);
+        modules.put(clazz, clazzObject);
+
+        return clazzObject;
     }
 
     public AbstractPlayerConfig getPlayerConfig() {

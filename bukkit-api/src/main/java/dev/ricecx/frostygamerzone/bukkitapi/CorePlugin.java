@@ -2,12 +2,18 @@ package dev.ricecx.frostygamerzone.bukkitapi;
 
 import dev.ricecx.frostygamerzone.bukkitapi.commands.Command;
 import dev.ricecx.frostygamerzone.common.LoggingUtils;
+import dev.ricecx.frostygamerzone.common.database.DatabaseManager;
+import dev.ricecx.frostygamerzone.common.database.SQLTypes;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -18,6 +24,7 @@ import java.util.stream.Collectors;
 public abstract class CorePlugin extends JavaPlugin {
 
     private static CommandMap internalCommands;
+    private final DatabaseManager databaseManager;
 
     static {
         final Field bukkitCommandMap;
@@ -36,6 +43,27 @@ public abstract class CorePlugin extends JavaPlugin {
 
     public CorePlugin() {
         paper = isUsingPaper();
+        databaseManager = new DatabaseManager(SQLTypes.POSTGRES);
+    }
+
+
+    public <T> void registerService(@NotNull Class<T> service, @NotNull T provider) {
+        LoggingUtils.info("Service " + service.getName() + " has been registered.");
+        registerService(service, provider, ServicePriority.Highest);
+    }
+
+    public static <T> T getService(Class<T> serviceClazz) {
+        RegisteredServiceProvider<T> provider = Bukkit.getServicesManager().getRegistration(serviceClazz);
+        Bukkit.getServicesManager().getKnownServices().forEach((c) -> LoggingUtils.info(c.getName()));
+        if(provider != null) {
+            return provider.getProvider();
+        } else {
+            return null;
+        }
+    }
+
+    public <T> void registerService(@NotNull Class<T> service, @NotNull T provider, @NotNull ServicePriority priority) {
+        Bukkit.getServicesManager().register(service, provider, this, priority);
     }
 
     /**
@@ -71,6 +99,10 @@ public abstract class CorePlugin extends JavaPlugin {
         }
     }
 
+
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
+    }
 
     public static CorePlugin getInstance() {
         return getPlugin(CorePlugin.class);

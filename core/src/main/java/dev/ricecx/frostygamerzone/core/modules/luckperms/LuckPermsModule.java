@@ -1,5 +1,6 @@
 package dev.ricecx.frostygamerzone.core.modules.luckperms;
 
+import dev.ricecx.frostygamerzone.api.plugins.core.LuckPermsAPI;
 import dev.ricecx.frostygamerzone.bukkitapi.Utils;
 import dev.ricecx.frostygamerzone.bukkitapi.module.Module;
 import dev.ricecx.frostygamerzone.bukkitapi.module.ModuleInfo;
@@ -7,7 +8,6 @@ import dev.ricecx.frostygamerzone.common.LoggingUtils;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.luckperms.api.LuckPerms;
-import net.luckperms.api.event.LuckPermsEvent;
 import net.luckperms.api.event.node.NodeAddEvent;
 import net.luckperms.api.event.node.NodeClearEvent;
 import net.luckperms.api.event.node.NodeRemoveEvent;
@@ -29,7 +29,7 @@ import java.util.concurrent.CompletableFuture;
 
 
 @ModuleInfo
-public class LuckPermsModule extends Module {
+public class LuckPermsModule extends Module implements LuckPermsAPI {
 
     @Getter private final LuckPerms luckPerms;
 
@@ -99,15 +99,18 @@ public class LuckPermsModule extends Module {
         }
     }
 
+    @Override
     public CompletableFuture<User> getOfflineUser(UUID uuid) {
         Objects.requireNonNull(luckPerms);
         return luckPerms.getUserManager().loadUser(uuid);
     }
+    @Override
     public User getUser(UUID uuid) {
         Objects.requireNonNull(luckPerms);
         return luckPerms.getUserManager().getUser(uuid);
     }
 
+    @Override
     public final String getMeta(@NotNull UUID uuid, String key) {
         User user = getUser(uuid);
         if (user == null)
@@ -115,6 +118,7 @@ public class LuckPermsModule extends Module {
         return user.getCachedData().getMetaData(user.getQueryOptions()).getMetaValue(key);
     }
 
+    @Override
     @SneakyThrows
     public final String getPrefix(UUID uuid) {
         User luckUser = getUser(uuid);

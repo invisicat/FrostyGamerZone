@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,6 +30,14 @@ public class Utils {
         return builder.substring(0, builder.toString().length() - 1);
     }
 
+    public static String[] colorList(String[] strings) {
+        List<String> coloredStrings = new ArrayList<>();
+        for (String string : strings) {
+            coloredStrings.add(color(string));
+        }
+
+        return coloredStrings.toArray(String[]::new);
+    }
     public static String color(String... strings) {
         return ChatColor.translateAlternateColorCodes('&', arrayToString(strings));
     }
