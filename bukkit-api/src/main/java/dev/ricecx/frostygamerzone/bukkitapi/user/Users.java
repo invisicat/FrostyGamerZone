@@ -1,51 +1,65 @@
 package dev.ricecx.frostygamerzone.bukkitapi.user;
 
-import com.google.common.collect.Maps;
-import dev.ricecx.frostygamerzone.api.AuthResult;
-import dev.ricecx.frostygamerzone.api.AuthenticationResult;
 import dev.ricecx.frostygamerzone.bukkitapi.CorePlugin;
-import dev.ricecx.frostygamerzone.common.database.DatabaseManager;
-import dev.ricecx.frostygamerzone.common.database.SQLUtils;
+import dev.ricecx.frostygamerzone.bukkitapi.user.utils.UserHandler;
+import dev.ricecx.frostygamerzone.bukkitapi.user.core.User;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public class Users {
-    private static final Map<UUID, FrostUser> users = Maps.newConcurrentMap();
-
-
-    public static FrostUser getUser(UUID uuid) {
-        FrostUser user = users.getOrDefault(uuid, new FrostUser(uuid));
-
-        users.put(uuid, user);
-
-        return user;
-    }
-    public static FrostUser getUser(Entity e) {
-        Player player = ((Player) e);
-        FrostUser user = users.getOrDefault(player.getUniqueId(), new FrostUser(player));
-
-        users.put(player.getUniqueId(), user);
-        return user;
+    @Nonnull
+    public static Map<UUID, ? extends User> getUsers() {
+        return CorePlugin.getInstance().getUserHandler().getUsers();
     }
 
-
-
-    public static boolean loadUser(UUID uuid) {
-        if(users.containsKey(uuid)) return false;
-        FrostUser user = getUser(uuid);
-        try {
-            user.load();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    @Nonnull
+    public static <T extends User> List<T> getUserList(Class<T> clazz) {
+        return CorePlugin.getInstance().getUserHandler().getUserList(clazz);
     }
 
-    public static void removeUser(Player player) {
-        users.remove(player.getUniqueId());
+    @Nullable
+    public static User getUser(String s) {
+        return CorePlugin.getInstance().getUserHandler().getUser(s);
     }
+
+    @Nullable
+    public static User getUser(UUID uuid) {
+        return CorePlugin.getInstance().getUserHandler().getUser(uuid);
+    }
+
+    @Nullable
+    public static User getUser(Entity entity) {
+        return CorePlugin.getInstance().getUserHandler().getUser(entity);
+    }
+
+    @Nullable
+    public static <T extends User> T getUser(String s, Class<T> clazz) {
+        return CorePlugin.getInstance().getUserHandler().getUser(s, clazz);
+    }
+
+    @Nullable
+    public static <T extends User> T getUser(UUID uuid, Class<T> clazz) {
+        return CorePlugin.getInstance().getUserHandler().getUser(uuid, clazz);
+    }
+
+    @Nullable
+    public static <T extends User> T getUser(Entity entity, Class<T> clazz) {
+        return CorePlugin.getInstance().getUserHandler().getUser(entity, clazz);
+    }
+
+    @Nullable
+    public static <T extends User> T getUser(User user, Class<T> clazz) {
+        return CorePlugin.getInstance().getUserHandler().getUser(user, clazz);
+    }
+
+    public static void getOfflineUser(String name, Consumer<User> consumer) {
+        UserHandler.getOfflineUser(name, consumer);
+    }
+
 }

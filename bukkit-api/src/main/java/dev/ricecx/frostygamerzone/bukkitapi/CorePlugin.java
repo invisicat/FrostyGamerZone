@@ -1,9 +1,13 @@
 package dev.ricecx.frostygamerzone.bukkitapi;
 
 import dev.ricecx.frostygamerzone.bukkitapi.commands.Command;
+import dev.ricecx.frostygamerzone.bukkitapi.user.utils.ServerUserHandler;
+import dev.ricecx.frostygamerzone.bukkitapi.user.utils.UserHandler;
+import dev.ricecx.frostygamerzone.bukkitapi.user.utils.UserRegister;
 import dev.ricecx.frostygamerzone.common.LoggingUtils;
 import dev.ricecx.frostygamerzone.common.database.DatabaseManager;
 import dev.ricecx.frostygamerzone.common.database.SQLTypes;
+import dev.ricecx.frostygamerzone.common.redis.Redis;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
@@ -25,6 +29,8 @@ public abstract class CorePlugin extends JavaPlugin {
 
     private static CommandMap internalCommands;
     private final DatabaseManager databaseManager;
+    private UserHandler<?> userHandler;
+    private final Redis redis;
 
     static {
         final Field bukkitCommandMap;
@@ -44,6 +50,12 @@ public abstract class CorePlugin extends JavaPlugin {
     public CorePlugin() {
         paper = isUsingPaper();
         databaseManager = new DatabaseManager(SQLTypes.POSTGRES);
+        redis = new Redis("redis://localhost/");
+
+        if (this instanceof UserRegister<?>) {
+            UserRegister<?> userRegister = (UserRegister<?>) this;
+            userHandler = new ServerUserHandler<>(userRegister);
+        }
     }
 
 
@@ -102,6 +114,14 @@ public abstract class CorePlugin extends JavaPlugin {
 
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
+    }
+
+    public Redis getRedis() {
+        return redis;
+    }
+
+    public UserHandler<?> getUserHandler() {
+        return userHandler;
     }
 
     public static CorePlugin getInstance() {

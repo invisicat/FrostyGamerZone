@@ -7,6 +7,7 @@ import dev.ricecx.frostygamerzone.api.plugins.core.FrostyGamerCoreAPI;
 import dev.ricecx.frostygamerzone.bukkitapi.module.Module;
 import dev.ricecx.frostygamerzone.common.LoggingUtils;
 import dev.ricecx.frostygamerzone.core.api.FrostyCoreAPI;
+import dev.ricecx.frostygamerzone.core.commands.NetworkCommand;
 import dev.ricecx.frostygamerzone.core.commands.PingCommand;
 import dev.ricecx.frostygamerzone.core.modules.Modules;
 import dev.ricecx.frostygamerzone.core.modules.luckperms.LuckPermsModule;
@@ -34,7 +35,8 @@ public final class FrostyGamerCore extends CorePlugin implements FrostyGamerCore
 
     public void loadCommands() {
         registerCommands(
-                new PingCommand()
+                new PingCommand(),
+                new NetworkCommand()
         );
     }
 
