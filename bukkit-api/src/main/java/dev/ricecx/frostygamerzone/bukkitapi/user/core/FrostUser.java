@@ -1,5 +1,7 @@
 package dev.ricecx.frostygamerzone.bukkitapi.user.core;
 
-public interface FrostUser extends DataUser {
+import dev.ricecx.frostygamerzone.api.Rank;
 
+public interface FrostUser extends DataUser {
+    Rank getRank();
 }

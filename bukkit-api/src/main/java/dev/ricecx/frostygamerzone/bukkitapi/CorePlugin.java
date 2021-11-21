@@ -1,5 +1,6 @@
 package dev.ricecx.frostygamerzone.bukkitapi;
 
+import dev.ricecx.frostygamerzone.api.ServerType;
 import dev.ricecx.frostygamerzone.bukkitapi.commands.Command;
 import dev.ricecx.frostygamerzone.bukkitapi.user.utils.ServerUserHandler;
 import dev.ricecx.frostygamerzone.bukkitapi.user.utils.UserHandler;
@@ -9,11 +10,11 @@ import dev.ricecx.frostygamerzone.common.database.DatabaseManager;
 import dev.ricecx.frostygamerzone.common.database.SQLTypes;
 import dev.ricecx.frostygamerzone.common.redis.Redis;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public abstract class CorePlugin extends JavaPlugin {
 
     private static CommandMap internalCommands;
+    @Setter private static ServerType serverType = ServerType.LOADING;
     private final DatabaseManager databaseManager;
     private UserHandler<?> userHandler;
     private final Redis redis;
@@ -51,13 +53,21 @@ public abstract class CorePlugin extends JavaPlugin {
         paper = isUsingPaper();
         databaseManager = new DatabaseManager(SQLTypes.POSTGRES);
         redis = new Redis("redis://localhost/");
+        setServerType(ServerType.UNKNOWN);
+    }
 
+    @Override
+    public void onEnable() {
         if (this instanceof UserRegister<?>) {
             UserRegister<?> userRegister = (UserRegister<?>) this;
             userHandler = new ServerUserHandler<>(userRegister);
         }
     }
 
+    @Override
+    public void onDisable() {
+        getRedis().close();
+    }
 
     public <T> void registerService(@NotNull Class<T> service, @NotNull T provider) {
         LoggingUtils.info("Service " + service.getName() + " has been registered.");

@@ -1,6 +1,7 @@
 package dev.ricecx.frostygamerzone.core.modules;
 
 import dev.ricecx.frostygamerzone.bukkitapi.module.Module;
+import dev.ricecx.frostygamerzone.bukkitapi.modules.nametag.NametagModule;
 import dev.ricecx.frostygamerzone.bukkitapi.modules.nohunger.NoHungerModule;
 import dev.ricecx.frostygamerzone.bukkitapi.modules.novanillajoinmessage.NoVanillaJoinMessageModule;
 import dev.ricecx.frostygamerzone.core.modules.chat.ChatModule;
@@ -12,7 +13,8 @@ public enum Modules {
     CHAT(ChatModule.class),
     NO_BLOCK_BREAK(NoBlockBreakModule.class),
     NO_HUNGER(NoHungerModule.class),
-    NO_VANILLA_JOIN(NoVanillaJoinMessageModule.class)
+    NO_VANILLA_JOIN(NoVanillaJoinMessageModule.class),
+    NAME_TAGS(NametagModule.class)
     ;
 
     private final Class<? extends Module> module;
