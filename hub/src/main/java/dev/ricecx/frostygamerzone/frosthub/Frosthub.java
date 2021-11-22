@@ -5,6 +5,7 @@ import dev.ricecx.frostygamerzone.bukkitapi.CorePlugin;
 import dev.ricecx.frostygamerzone.bukkitapi.modules.noattacking.NoAttackingModule;
 import dev.ricecx.frostygamerzone.bukkitapi.modules.nofalldamage.NoFallDamage;
 import dev.ricecx.frostygamerzone.bukkitapi.modules.scoreboard.ScoreboardModule;
+import dev.ricecx.frostygamerzone.bukkitapi.user.Users;
 import dev.ricecx.frostygamerzone.common.LoggingUtils;
 import dev.ricecx.frostygamerzone.frosthub.modules.lobbyitems.LobbyItemsModule;
 import dev.ricecx.frostygamerzone.frosthub.modules.platelaunchers.PlateLauncherModules;

@@ -1,12 +1,14 @@
 package dev.ricecx.frostygamerzone.bukkitapi;
 
 import com.google.common.base.Preconditions;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +35,16 @@ public class ItemBuilder {
         itemMeta.setDisplayName(Utils.color(name));
 
         itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+    
+    public ItemBuilder setColor(Color color) {
+        ItemMeta im = itemStack.getItemMeta();
+        Preconditions.checkNotNull(im);
+        ((LeatherArmorMeta) im).setColor(color);
+
+        itemStack.setItemMeta(im);
+
         return this;
     }
 
