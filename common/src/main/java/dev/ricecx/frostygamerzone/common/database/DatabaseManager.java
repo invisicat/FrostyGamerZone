@@ -15,7 +15,7 @@ public class DatabaseManager implements Closeable {
     public DatabaseManager(SQLTypes types) {
         dataSource = new HikariDataSource(HikariUtils.generateConfig(
                 types,
-                new HikariAuthentication("frost", "nigger", "localhost", "postgres"), 5432
+                new HikariAuthentication("frost", "pw", "localhost", "postgres"), 5432
         ));
         SQLUtils.setConnection(getConnection());
         LoggingUtils.info("Connected to " + types.name() + "!");
